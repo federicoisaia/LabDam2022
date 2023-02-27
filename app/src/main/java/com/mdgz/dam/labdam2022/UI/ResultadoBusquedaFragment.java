@@ -1,6 +1,10 @@
-package com.mdgz.dam.labdam2022;
+package com.mdgz.dam.labdam2022.UI;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,17 +13,12 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
-import com.mdgz.dam.labdam2022.adaptadoresRV.AlojamientosRecyclerAdapter;
+import com.mdgz.dam.labdam2022.R;
+import com.mdgz.dam.labdam2022.UI.adaptadoresRV.AlojamientosRecyclerAdapter;
 import com.mdgz.dam.labdam2022.databinding.FragmentResultadoBusquedaBinding;
 import com.mdgz.dam.labdam2022.model.Alojamiento;
-import com.mdgz.dam.labdam2022.repo.AlojamientoRepository;
 
-import java.util.List;
+import java.util.ArrayList;
 
 
 public class ResultadoBusquedaFragment extends Fragment {
@@ -29,7 +28,6 @@ public class ResultadoBusquedaFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter rvAdapter;
 
-    private final List<Alojamiento> alojamientos = AlojamientoRepository._ALOJAMIENTOS;
     public ResultadoBusquedaFragment() {
     }
 
@@ -51,21 +49,28 @@ public class ResultadoBusquedaFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         binding = FragmentResultadoBusquedaBinding.inflate(inflater, container, false);
-
-        recyclerView= (RecyclerView) binding.recyclerAlojamientos;
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this.getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        rvAdapter= new AlojamientosRecyclerAdapter(alojamientos);
-        recyclerView.setAdapter(rvAdapter);
-
-
         return binding.getRoot();
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        ArrayList<Alojamiento> alojamientos = new ArrayList<>();
+        if (getArguments() != null) {
+            alojamientos = getArguments().getParcelableArrayList("alojamientos");
+        }
+        recyclerView=binding.recyclerAlojamientos;
+
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this.getContext());
+        recyclerView.setLayoutManager(layoutManager);
+
+        rvAdapter = new AlojamientosRecyclerAdapter(alojamientos);
+        recyclerView.setAdapter(rvAdapter);
+
+
         binding.botonNuevaBusqueda.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

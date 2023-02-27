@@ -1,4 +1,4 @@
-package com.mdgz.dam.labdam2022;
+package com.mdgz.dam.labdam2022.UI;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,8 +13,7 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import com.mdgz.dam.labdam2022.R;
 
 public class ConfiguracionFragment extends PreferenceFragmentCompat implements PreferenceFragmentCompat.OnPreferenceStartFragmentCallback{
     SharedPreferences sharedPrefs;
