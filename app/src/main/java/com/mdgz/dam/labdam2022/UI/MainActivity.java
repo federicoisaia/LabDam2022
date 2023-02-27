@@ -11,7 +11,14 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.mdgz.dam.labdam2022.R;
+import com.mdgz.dam.labdam2022.data.OnResult;
+import com.mdgz.dam.labdam2022.data.database.AppDataBase;
 import com.mdgz.dam.labdam2022.databinding.ActivityMainBinding;
+import com.mdgz.dam.labdam2022.factory.AlojamientoRepositoryFactory;
+import com.mdgz.dam.labdam2022.model.Alojamiento;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
@@ -43,8 +50,36 @@ public class MainActivity extends AppCompatActivity {
                 if(navController.getCurrentDestination().getId() != R.id.opcion_buscar){
                     navController.navigate(R.id.to_busquedaFragment);
                 }
+            case R.id.opcion_favoritos:
+                if(navController.getCurrentDestination().getId() != R.id.opcion_buscar){
+                    irAFavoritos();
+                }
             default:  return false;
         }
+    }
+
+    private void irAFavoritos() {
+        ArrayList<Alojamiento> favoritos = new ArrayList<>();
+        OnResult<List<Alojamiento>> favoritosCallback= new OnResult<List<Alojamiento>>() {
+            @Override
+            public void onSuccess(List<Alojamiento> result) {
+                favoritos.addAll(result);
+                runOnUiThread(()->{
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelableArrayList("favoritos", favoritos);
+                    navController.navigate(R.id.to_favoritosFragment, bundle);
+                });
+            }
+
+            @Override
+            public void onError(Throwable exception) {
+
+            }
+        };
+
+        AppDataBase.EXECUTOR_DB.execute(()->{
+            AlojamientoRepositoryFactory.create(getApplicationContext()).recuperarFavoritos(favoritosCallback);
+        });
     }
 
 }

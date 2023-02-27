@@ -21,9 +21,7 @@
         android:name="com.mdgz.dam.labdam2022.UI.ResultadoBusquedaFragment"
         android:label="fragment_resultado_busqueda"
         tools:layout="@layout/fragment_resultado_busqueda" >
-        <action
-            android:id="@+id/action_resultadoBusquedaFragment_to_detalleAlojamientoFragment"
-            app:destination="@id/detalleAlojamientoFragment" />
+
         <action
             android:id="@+id/action_resultadoBusquedaFragment_to_busquedaFragment"
             app:destination="@id/busquedaFragment" />
@@ -51,16 +49,29 @@
             android:id="@+id/action_configuracionFragment_to_historialBusquedaFragment"
             app:destination="@id/historialBusquedaFragment" />
     </fragment>
-
+    <!--Acciones globales -->
     <action
         android:id="@+id/to_configuracionFragment"
         app:destination="@id/configuracionFragment" />
-    <action android:id="@+id/to_busquedaFragment"
+    <action
+        android:id="@+id/to_busquedaFragment"
         app:destination="@id/busquedaFragment"/>
+    <action
+        android:id="@+id/to_favoritosFragment"
+        app:destination="@id/favoritosFragment"/>
+    <action
+        android:id="@+id/to_detalleAlojamientoFragment"
+        app:destination="@id/detalleAlojamientoFragment" />
     <fragment
         android:id="@+id/historialBusquedaFragment"
         android:name="com.mdgz.dam.labdam2022.UI.HistorialBusquedaFragment"
         android:label="fragment_historial_busqueda"
         tools:layout="@layout/fragment_historial_busqueda" />
+    <fragment
+        android:id="@+id/favoritosFragment"
+        android:name="com.mdgz.dam.labdam2022.UI.FavoritosFragment"
+        android:label="fragment_favoritos"
+        tools:layout="@layout/fragment_favoritos" />
+
 
 </navigation>

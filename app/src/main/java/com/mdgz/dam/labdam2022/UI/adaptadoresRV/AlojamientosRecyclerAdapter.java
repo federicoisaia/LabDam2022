@@ -32,6 +32,7 @@ public class AlojamientosRecyclerAdapter extends RecyclerView.Adapter<Alojamient
         ImageView imgTipo;
         ImageView imgFav;
         TextView capacidad;
+        private boolean esFavorito;
 
         public AlojamientosViewHolder(@NonNull View itemView) {
 
@@ -73,7 +74,8 @@ public class AlojamientosRecyclerAdapter extends RecyclerView.Adapter<Alojamient
             public void onClick(View view) {
 
                 bundle.putParcelable("alojamiento_seleccionado",alojamiento);
-                Navigation.findNavController(view).navigate(R.id.action_resultadoBusquedaFragment_to_detalleAlojamientoFragment,bundle);
+                if(holder.esFavorito)bundle.putBoolean("es_favorito", true);
+                Navigation.findNavController(view).navigate(R.id.to_detalleAlojamientoFragment,bundle);
 
             }
         });
@@ -97,8 +99,9 @@ public class AlojamientosRecyclerAdapter extends RecyclerView.Adapter<Alojamient
             public void onSuccess(Boolean result) {
                 if(result){
                     holder.imgFav.setImageResource(R.drawable.ic_baseline_star_24);
-                    bundle.putBoolean("es_favorito",true);
-                }else bundle.putBoolean("es_favorito",false);
+                    holder.esFavorito=true;
+                }
+                else holder.esFavorito=false;
 
             }
 

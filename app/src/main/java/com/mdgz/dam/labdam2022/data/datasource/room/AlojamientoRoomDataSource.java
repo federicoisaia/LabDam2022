@@ -84,7 +84,7 @@ public class AlojamientoRoomDataSource implements AlojamientoDataSource {
             final List<Departamento> departamentos = new ArrayList<>();
             AlojamientoEntity ae;
             for (final DepartamentoEntity de : deCollection) {
-                ae = alojamientoDAO.recuperarAlojamientos(de.getAlojamientoId());
+                ae = alojamientoDAO.recuperarAlojamientos(de.getId());
                 departamentos.add(DepartamentoMapper.fromEntity(de, ae));
             }
             callback.onSuccess(departamentos);

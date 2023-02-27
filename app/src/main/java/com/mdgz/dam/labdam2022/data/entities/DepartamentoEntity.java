@@ -24,30 +24,30 @@ public class DepartamentoEntity {
     private Integer cantidadHabitaciones;
     @ColumnInfo(name = "alojamiento_id")
     private UUID alojamientoId;
-    private Integer id_ubicacion;
-
+    private Integer ubicacionId;
 
     @Ignore
     public DepartamentoEntity(final Boolean tieneWifi, final Double costoLimpieza,
                               final Integer cantidadHabitaciones,
-                              final UUID alojamientoId,final Integer id_ubicacion) {
+                              final UUID alojamientoId, final Integer ubicacionId) {
         id = UUID.randomUUID();
         this.tieneWifi = tieneWifi;
         this.costoLimpieza = costoLimpieza;
         this.cantidadHabitaciones = cantidadHabitaciones;
         this.alojamientoId = alojamientoId;
-        this.id_ubicacion=id_ubicacion;
+        this.ubicacionId=ubicacionId;
     }
 
     public DepartamentoEntity(@NonNull final UUID id, final Boolean tieneWifi, final Double costoLimpieza,
                               final Integer cantidadHabitaciones,
-                              final UUID alojamientoId,final Integer id_ubicacion) {
+                              final UUID alojamientoId,final Integer ubicacionId) {
         this.id = id;
         this.tieneWifi = tieneWifi;
         this.costoLimpieza = costoLimpieza;
         this.cantidadHabitaciones = cantidadHabitaciones;
         this.alojamientoId = alojamientoId;
-        this.id_ubicacion=id_ubicacion;
+        this.ubicacionId=ubicacionId;
+
     }
 
     @NonNull
@@ -91,11 +91,11 @@ public class DepartamentoEntity {
         this.alojamientoId = alojamientoId;
     }
 
-    public Integer getId_ubicacion() {
-        return id_ubicacion;
+    public Integer getUbicacionId() {
+        return ubicacionId;
     }
 
-    public void setId_ubicacion(Integer id_ubicacion) {
-        this.id_ubicacion = id_ubicacion;
+    public void setUbicacionId(Integer ubicacionId) {
+        this.ubicacionId = ubicacionId;
     }
 }

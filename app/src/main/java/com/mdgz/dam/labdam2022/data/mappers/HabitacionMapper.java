@@ -13,7 +13,7 @@ public class HabitacionMapper {
 
     public static HabitacionEntity toEntity(final Habitacion habitacion, final UUID alojamientoId) {
         return new HabitacionEntity(
-                habitacion.getId() == null? UUID.randomUUID(): habitacion.getId(),
+                alojamientoId,
                 habitacion.getCamasIndividuales(),
                 habitacion.getCamasMatrimoniales(),
                 habitacion.getTieneEstacionamiento(),

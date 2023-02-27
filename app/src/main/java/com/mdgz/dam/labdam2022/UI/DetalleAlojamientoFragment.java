@@ -81,6 +81,9 @@ public class DetalleAlojamientoFragment extends Fragment {
                         @Override
                         public void onSuccess(Void result) {
                             esFavorito=false;
+                            requireActivity().runOnUiThread(()->{
+                                Toast.makeText(requireContext(), "Se ha eliminado de Favoritos", Toast.LENGTH_LONG);
+                            });
                             actualizarBotonFavorito();
                         }
 
@@ -99,6 +102,11 @@ public class DetalleAlojamientoFragment extends Fragment {
                         public void onSuccess(Favorito result) {
                             esFavorito =true;
                             actualizarBotonFavorito();
+                            requireActivity().runOnUiThread(()->{
+                                Toast.makeText(requireContext(), "Se ha agregado a Favoritos", Toast.LENGTH_LONG);
+
+                            });
+
                         }
 
                         @Override
