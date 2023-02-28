@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="azul_primario_app">#2196F3</color>
     <color name="gray">#61F8F8F8</color>
+    <color name="error_pink">#FF8888</color>
 </resources>

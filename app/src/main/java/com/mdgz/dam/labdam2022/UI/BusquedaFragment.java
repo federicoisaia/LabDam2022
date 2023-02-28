@@ -1,34 +1,32 @@
-package com.mdgz.dam.labdam2022;
+package com.mdgz.dam.labdam2022.UI;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.preference.Preference;
 import androidx.preference.PreferenceManager;
 
-import android.os.Parcelable;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Toolbar;
-
+import com.mdgz.dam.labdam2022.R;
+import com.mdgz.dam.labdam2022.data.OnResult;
+import com.mdgz.dam.labdam2022.data.database.AppDataBase;
+import com.mdgz.dam.labdam2022.data.repo.CiudadRepository;
 import com.mdgz.dam.labdam2022.databinding.FragmentBusquedaBinding;
+import com.mdgz.dam.labdam2022.factory.AlojamientoRepositoryFactory;
+import com.mdgz.dam.labdam2022.model.Alojamiento;
 import com.mdgz.dam.labdam2022.model.Ciudad;
-import com.mdgz.dam.labdam2022.repo.CiudadRepository;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +35,11 @@ public class BusquedaFragment extends Fragment {
     private FragmentBusquedaBinding binding;
     final String [] tiposAlojamientos=new String[]{"Departamento", "Hotel", "Todos"};
     final List<Ciudad> ciudades = CiudadRepository._CIUDADES;
-
+    private ArrayList<Alojamiento> alojamientos = new ArrayList<>();
+    Instant inicioConsulta;
+    Instant finConsulta;
+    private String tiempoConsulta="";
+    boolean sinResultados=false; //hardcodeado
 
 
     public static BusquedaFragment newInstance() {
@@ -74,29 +76,30 @@ public class BusquedaFragment extends Fragment {
         binding.botonBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            Bundle filtrosBusqueda = new Bundle();
-            String  tipoHospedaje = binding.spinnerTipoHospedaje.getSelectedItem().toString();
-            Integer huespedes;
-            if(binding.cantidadPersonas.getText().toString().isEmpty())huespedes=0;
-            else  huespedes = Integer.parseInt(binding.cantidadPersonas.getText().toString());
-            Boolean wifi = binding.wifi.isChecked();
-            verificarRangoPrecio();
-            Float precioMax;
-            if(binding.precioMaximo.getText().toString().isEmpty())precioMax=100000.0f;
-            else precioMax = Float.parseFloat(binding.precioMaximo.getText().toString());
-            Float precioMin;
-            if(binding.precioMinimo.getText().toString().isEmpty()) precioMin=0.0f;
-            else precioMin = Float.parseFloat(binding.precioMinimo.getText().toString());
-            Ciudad destino = (Ciudad) binding.spinnerCiudad.getSelectedItem();
-            filtrosBusqueda.putString("tipoHospedaje", tipoHospedaje);
-            filtrosBusqueda.putInt("cantidadHuespedes", huespedes);
-            filtrosBusqueda.putBoolean("wifi", wifi);
-            filtrosBusqueda.putFloat("precioMax", precioMax);
-            filtrosBusqueda.putFloat("precioMin", precioMin);
-            filtrosBusqueda.putInt("idCiudad",destino.getId());
 
-            guardarBusquedaEnHistorial(tipoHospedaje, huespedes, wifi, precioMax, precioMin, destino);
-            NavHostFragment.findNavController(BusquedaFragment.this).navigate(R.id.action_busquedaFragment_to_resultadoBusquedaFragment,filtrosBusqueda);
+
+            final OnResult<List<Alojamiento>> alojamientosCallback = new OnResult<List<Alojamiento>>() {
+                @Override
+                public void onSuccess(List<Alojamiento> result) {
+                    alojamientos.addAll(result);
+                    finConsulta = Instant.now();
+                    tiempoConsulta= String.valueOf((finConsulta.toEpochMilli()-inicioConsulta.toEpochMilli()))+"ms";
+                    guardarBusquedaEnHistorial();
+                    requireActivity().runOnUiThread(()->{
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelableArrayList("alojamientos", alojamientos);
+                        NavHostFragment.findNavController(BusquedaFragment.this).navigate(R.id.action_busquedaFragment_to_resultadoBusquedaFragment,bundle);
+
+                    });
+                }
+                @Override
+                public void onError(Throwable exception) {sinResultados=true;}
+            };
+                 inicioConsulta = Instant.now();
+                AppDataBase.EXECUTOR_DB.execute(()-> AlojamientoRepositoryFactory.create(getContext()).recuperarAlojamientos(alojamientosCallback));
+
+
+
             }
         });
         binding.botonLimpiarFiltros.setOnClickListener(new View.OnClickListener() {
@@ -107,12 +110,25 @@ public class BusquedaFragment extends Fragment {
         });
     }
 
-    private void guardarBusquedaEnHistorial(String tipoHospedaje, Integer huespedes, Boolean wifi, Float precioMax,Float precioMin,Ciudad destino) {
+    private void guardarBusquedaEnHistorial() {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         if(sharedPrefs.getBoolean("guardado_info",false)) {
             String filename = "datos_uso_app";
-            String salida= (new Timestamp(System.currentTimeMillis())).toString();
+            String salida= tiempoConsulta;
             String conWifi = "no";
+            String  tipoHospedaje = binding.spinnerTipoHospedaje.getSelectedItem().toString();
+            Integer huespedes;
+            if(binding.cantidadPersonas.getText().toString().isEmpty())huespedes=0;
+            else  huespedes = Integer.parseInt(binding.cantidadPersonas.getText().toString());
+            Boolean wifi = binding.wifi.isChecked();
+            verificarRangoPrecio();
+            Double precioMax;
+            if(binding.precioMaximo.getText().toString().isEmpty())precioMax=100000.0;
+            else precioMax = Double.parseDouble(binding.precioMaximo.getText().toString());
+            Double precioMin;
+            if(binding.precioMinimo.getText().toString().isEmpty()) precioMin=0.0;
+            else precioMin = Double.parseDouble(binding.precioMinimo.getText().toString());
+            Ciudad destino = (Ciudad) binding.spinnerCiudad.getSelectedItem();
             if (wifi) conWifi = "si";
             salida +="Tipo de Hospedaje: "+tipoHospedaje+" - Cantidad de huéspedes: "+huespedes.toString()+" - con Wifi: "
                     +conWifi+" - Precio Min: "+precioMin+ " - Precio Max: "+precioMax+" - Ciudad: "+destino.toString()+"\n";

@@ -1,8 +1,12 @@
 package com.mdgz.dam.labdam2022.model;
 
-public abstract class Alojamiento {
+import android.os.Parcelable;
 
-    protected Integer id;
+import java.util.UUID;
+
+public abstract class Alojamiento implements Parcelable {
+
+    protected UUID id;
     protected String titulo;
     protected String descripcion;
     protected Integer capacidad;
@@ -17,11 +21,38 @@ public abstract class Alojamiento {
         super();
     }
 
-    public Alojamiento(Integer id, String titulo, String descripcion, Integer capacidad, Double precioBase) {
+    public Alojamiento(UUID id, String titulo, String descripcion, Integer capacidad, Double precioBase) {
         this.id = id;
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.capacidad = capacidad;
+        this.precioBase = precioBase;
+    }
+    public Alojamiento(String titulo, String descripcion, Integer capacidad, Double precioBase) {
+        this.id = null;
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.capacidad = capacidad;
+        this.precioBase = precioBase;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public void setCapacidad(Integer capacidad) {
+        this.capacidad = capacidad;
+    }
+
+    public void setPrecioBase(Double precioBase) {
         this.precioBase = precioBase;
     }
 
@@ -37,11 +68,22 @@ public abstract class Alojamiento {
         return descripcion;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
     public Integer getCapacidad() {
         return capacidad;
+    }
+
+    @Override
+    public String toString() {
+        return "Alojamiento{" +
+                "id=" + id +
+                ", titulo='" + titulo + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", capacidad=" + capacidad +
+                ", precioBase=" + precioBase +
+                '}';
     }
 }
