@@ -22,11 +22,12 @@
                 />
             <item
                 android:id="@+id/opcion_favoritos"
-                android:icon="@drawable/ic_baseline_star_border_24"
+                android:icon="@drawable/ic_baseline_star_24"
                 android:title="Mis Favoritos"
                 android:orderInCategory="2"
                 />
             <item
+                android:id="@+id/opcion_mis_reservas"
                 android:icon="@drawable/ic_baseline_night_shelter_24"
                 android:title="Mis Reservas"
                 android:orderInCategory="1"

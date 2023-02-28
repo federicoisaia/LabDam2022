@@ -28,6 +28,7 @@ import com.mdgz.dam.labdam2022.model.Alojamiento;
 import com.mdgz.dam.labdam2022.model.Departamento;
 import com.mdgz.dam.labdam2022.model.Favorito;
 import com.mdgz.dam.labdam2022.model.Habitacion;
+import com.mdgz.dam.labdam2022.model.Reserva;
 
 import java.time.LocalDate;
 
@@ -39,6 +40,7 @@ public class DetalleAlojamientoFragment extends Fragment {
     private Double precioFinal;
     private Double precioBase;
     private Boolean esFavorito;
+    Boolean capacidadExcedida=false;
     private Alojamiento alojamiento;
     public DetalleAlojamientoFragment() {
     }
@@ -96,7 +98,8 @@ public class DetalleAlojamientoFragment extends Fragment {
                     AppDataBase.EXECUTOR_DB.execute(()->{
                         AlojamientoRepositoryFactory.create(getContext()).quitarFavorito(alojamiento, eliminarCallback);
                     });
-                }else{
+                }
+                else{
                     OnResult<Favorito> guardarCallback = new OnResult<Favorito>() {
                         @Override
                         public void onSuccess(Favorito result) {
@@ -217,19 +220,39 @@ public class DetalleAlojamientoFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-            activarBotonReservar();
+
+                if (binding.huespedes.getText() != null) {
+                    if (Integer.parseInt(binding.huespedes.getText().toString()) > alojamiento.getCapacidad()) {
+                        binding.huespedes.setText("0");
+                        Toast.makeText(requireContext(), "Capacidad del Alojamiento Excedida", Toast.LENGTH_LONG).show();
+                    }
+                    activarBotonReservar();
+                }
             }
         });
         binding.botonReservar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //aqúi iria la la parte de guardar en mís reservas.
-                Toast.makeText(getContext(), "Se ha guardado la Reserva en Mis Reservas", Toast.LENGTH_LONG).show();
+                Reserva reserva = new Reserva(alojamiento.getId(),alojamiento.getTitulo(), fechaCheckIn,fechaCheckout, precioFinal);
+                OnResult<Reserva> guardarCallback = new OnResult<Reserva>() {
+                    @Override
+                    public void onSuccess(Reserva result) {
+                        Toast.makeText(getContext(), "Se ha guardado la Reserva en Mis Reservas", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onError(Throwable exception) {
+
+                    }
+                };
+
+                AppDataBase.EXECUTOR_DB.execute(()->{
+                    AlojamientoRepositoryFactory.create(requireContext()).agregarReserva(reserva, guardarCallback);
+                });
                 Navigation.findNavController(view).navigate(R.id.action_detalleAlojamientoFragment_to_busquedaFragment);
             }
         });
@@ -283,7 +306,7 @@ public class DetalleAlojamientoFragment extends Fragment {
         }
     }
     private void activarBotonReservar(){
-        if(!binding.fechaCheckout.getText().toString().isEmpty() && !binding.fechaCheckin.getText().toString().isEmpty() && !binding.huespedes.getText().toString().isEmpty()){
+        if(!binding.fechaCheckout.getText().toString().isEmpty() && !binding.fechaCheckin.getText().toString().isEmpty() && !binding.huespedes.getText().toString().isEmpty() && !capacidadExcedida){
             binding.botonReservar.setEnabled(true);
         }
         else {

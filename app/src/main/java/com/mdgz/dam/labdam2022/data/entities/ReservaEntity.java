@@ -9,7 +9,7 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity(indices = @Index(value = { "alojamiento_id" }),
@@ -20,17 +20,20 @@ public class ReservaEntity {
     private UUID id;
     @ColumnInfo(name = "alojamiento_id")
     private UUID alojamientoID;
+    @ColumnInfo(name = "titulo_alojamiento")
+    private String tituloAlojamiento;
     @ColumnInfo(name = "usuario_id")
     private UUID usuarioID;
     @ColumnInfo(name = "fecha_Ingreso")
-    private Date fechaIngreso;
+    private LocalDate fechaIngreso;
     @ColumnInfo(name = "fecha_Salida")
-    private Date fechaSalida;
+    private LocalDate fechaSalida;
     private Double monto;
 
-    public ReservaEntity(@NonNull UUID id, final UUID alojamientoID, final UUID usuarioID,final Date fechaIngreso, final Date fechaSalida, final Double monto) {
+    public ReservaEntity(@NonNull UUID id, final UUID alojamientoID,String tituloAlojamiento, final UUID usuarioID,final LocalDate fechaIngreso, final LocalDate fechaSalida, final Double monto) {
         this.id = id;
         this.alojamientoID = alojamientoID;
+        this.tituloAlojamiento=tituloAlojamiento;
         this.usuarioID = usuarioID;
         this.fechaIngreso = fechaIngreso;
         this.fechaSalida = fechaSalida;
@@ -38,9 +41,10 @@ public class ReservaEntity {
     }
 
     @Ignore
-    public ReservaEntity(final UUID alojamientoID, final UUID usuarioID, final Date fechaIngreso, final Date fechaSalida, final Double monto) {
+    public ReservaEntity(final UUID alojamientoID,String tituloAlojamiento, final UUID usuarioID, final LocalDate fechaIngreso, final LocalDate fechaSalida, final Double monto) {
         this.id= UUID.randomUUID();
         this.alojamientoID = alojamientoID;
+        this.tituloAlojamiento=tituloAlojamiento;
         this.usuarioID = usuarioID;
         this.fechaIngreso = fechaIngreso;
         this.fechaSalida = fechaSalida;
@@ -65,6 +69,14 @@ public class ReservaEntity {
         this.alojamientoID = alojamientoID;
     }
 
+    public String getTituloAlojamiento() {
+        return tituloAlojamiento;
+    }
+
+    public void setTituloAlojamiento(String tituloAlojamiento) {
+        this.tituloAlojamiento = tituloAlojamiento;
+    }
+
     public UUID getUsuarioID() {
         return usuarioID;
     }
@@ -73,19 +85,19 @@ public class ReservaEntity {
         this.usuarioID = usuarioID;
     }
 
-    public Date getFechaIngreso() {
+    public LocalDate getFechaIngreso() {
         return fechaIngreso;
     }
 
-    public void setFechaIngreso(final Date fechaIngreso) {
+    public void setFechaIngreso(final LocalDate fechaIngreso) {
         this.fechaIngreso = fechaIngreso;
     }
 
-    public Date getFechaSalida() {
+    public LocalDate getFechaSalida() {
         return fechaSalida;
     }
 
-    public void setFechaSalida(final Date fechaSalida) {
+    public void setFechaSalida(final LocalDate fechaSalida) {
         this.fechaSalida = fechaSalida;
     }
 

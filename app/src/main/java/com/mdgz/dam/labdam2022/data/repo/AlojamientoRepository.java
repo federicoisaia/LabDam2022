@@ -122,13 +122,16 @@ public class AlojamientoRepository {
             }
         });
     }
+    public void recuperarReservasBD(final OnResult<List<Reserva>> callback){
+        reservaDataSource.recuperarReservas(callback);
+    }
 
     public void agregarReserva(final Reserva reserva ,
                         final OnResult<Reserva> callback) {
         reservaDataSource.guardarReserva(reserva, callback);
     }
 
-    void quitarReserva(final Reserva reserva, final OnResult<Void> callback) {
+    public void quitarReserva(final Reserva reserva, final OnResult<Void> callback) {
         reservaDataSource.eliminarReserva(reserva, callback);
     }
 

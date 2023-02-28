@@ -16,6 +16,7 @@ import com.mdgz.dam.labdam2022.data.database.AppDataBase;
 import com.mdgz.dam.labdam2022.databinding.ActivityMainBinding;
 import com.mdgz.dam.labdam2022.factory.AlojamientoRepositoryFactory;
 import com.mdgz.dam.labdam2022.model.Alojamiento;
+import com.mdgz.dam.labdam2022.model.Reserva;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,16 +50,46 @@ public class MainActivity extends AppCompatActivity {
             case R.id.opcion_buscar:
                 if(navController.getCurrentDestination().getId() != R.id.opcion_buscar){
                     navController.navigate(R.id.to_busquedaFragment);
+                    return true;
                 }
             case R.id.opcion_favoritos:
-                if(navController.getCurrentDestination().getId() != R.id.opcion_buscar){
+                if(navController.getCurrentDestination().getId() != R.id.opcion_favoritos){
                     irAFavoritos();
+                    return true;
+                }
+            case R.id.opcion_mis_reservas:
+                if(navController.getCurrentDestination().getId() != R.id.opcion_mis_reservas){
+                    irAReservas();
                 }
             default:  return false;
         }
     }
 
-    private void irAFavoritos() {
+    private void irAReservas() {
+        ArrayList<Reserva> reservas = new ArrayList<>();
+        OnResult<List<Reserva>> reservasCallback = new OnResult<List<Reserva>>() {
+            @Override
+            public void onSuccess(List<Reserva> result) {
+                reservas.addAll(result);
+                runOnUiThread(() -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelableArrayList("reservas", reservas);
+                    navController.navigate(R.id.to_misReservasFragment, bundle);
+                });
+            }
+
+            @Override
+            public void onError(Throwable exception) {
+
+            }
+        };
+        AppDataBase.EXECUTOR_DB.execute(() -> {
+            AlojamientoRepositoryFactory.create(getApplicationContext()).recuperarReservasBD(reservasCallback);
+        });
+    }
+
+
+    private void irAFavoritos(){
         ArrayList<Alojamiento> favoritos = new ArrayList<>();
         OnResult<List<Alojamiento>> favoritosCallback= new OnResult<List<Alojamiento>>() {
             @Override
@@ -73,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onError(Throwable exception) {
-
             }
         };
 

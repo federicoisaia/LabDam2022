@@ -26,7 +26,6 @@ import com.mdgz.dam.labdam2022.model.Ciudad;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +38,7 @@ public class BusquedaFragment extends Fragment {
     private ArrayList<Alojamiento> alojamientos = new ArrayList<>();
     Instant inicioConsulta;
     Instant finConsulta;
+    private String tiempoConsulta="";
     boolean sinResultados=false; //hardcodeado
 
 
@@ -83,6 +83,8 @@ public class BusquedaFragment extends Fragment {
                 public void onSuccess(List<Alojamiento> result) {
                     alojamientos.addAll(result);
                     finConsulta = Instant.now();
+                    tiempoConsulta= String.valueOf((finConsulta.toEpochMilli()-inicioConsulta.toEpochMilli()))+"ms";
+                    guardarBusquedaEnHistorial();
                     requireActivity().runOnUiThread(()->{
                         Bundle bundle = new Bundle();
                         bundle.putParcelableArrayList("alojamientos", alojamientos);
@@ -98,7 +100,6 @@ public class BusquedaFragment extends Fragment {
 
 
 
-            guardarBusquedaEnHistorial();
             }
         });
         binding.botonLimpiarFiltros.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +114,7 @@ public class BusquedaFragment extends Fragment {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         if(sharedPrefs.getBoolean("guardado_info",false)) {
             String filename = "datos_uso_app";
-            String salida= (new Timestamp(finConsulta.toEpochMilli()-inicioConsulta.toEpochMilli())).toString();
+            String salida= tiempoConsulta;
             String conWifi = "no";
             String  tipoHospedaje = binding.spinnerTipoHospedaje.getSelectedItem().toString();
             Integer huespedes;

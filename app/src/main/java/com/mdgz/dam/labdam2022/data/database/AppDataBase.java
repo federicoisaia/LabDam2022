@@ -10,7 +10,7 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import com.mdgz.dam.labdam2022.data.DateConverter;
+import com.mdgz.dam.labdam2022.data.LocalDateConverter;
 import com.mdgz.dam.labdam2022.data.OnResult;
 import com.mdgz.dam.labdam2022.data.UUIDConverter;
 import com.mdgz.dam.labdam2022.data.dao.AlojamientoDAO;
@@ -24,10 +24,10 @@ import com.mdgz.dam.labdam2022.data.entities.DepartamentoEntity;
 import com.mdgz.dam.labdam2022.data.entities.FavoritoEntity;
 import com.mdgz.dam.labdam2022.data.entities.HabitacionEntity;
 import com.mdgz.dam.labdam2022.data.entities.ReservaEntity;
-import com.mdgz.dam.labdam2022.model.Departamento;
-import com.mdgz.dam.labdam2022.model.Habitacion;
 import com.mdgz.dam.labdam2022.data.repo.HotelRepository;
 import com.mdgz.dam.labdam2022.data.repo.UbicacionRepository;
+import com.mdgz.dam.labdam2022.model.Departamento;
+import com.mdgz.dam.labdam2022.model.Habitacion;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -35,7 +35,7 @@ import java.util.concurrent.Executors;
 @Database(entities = { AlojamientoEntity.class, DepartamentoEntity.class, HabitacionEntity.class, FavoritoEntity.class, ReservaEntity.class},
         version = 1,
         exportSchema = false)
-@TypeConverters({ UUIDConverter.class, DateConverter.class})
+@TypeConverters({ UUIDConverter.class, LocalDateConverter.class})
 public abstract class AppDataBase extends RoomDatabase {
 
     public abstract AlojamientoDAO alojamientoDAO();

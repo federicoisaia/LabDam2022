@@ -90,7 +90,7 @@ public class AlojamientosRecyclerAdapter extends RecyclerView.Adapter<Alojamient
         holder.titulo.setText(alojamiento.getTitulo());
         DecimalFormat format= new DecimalFormat();
         format.setMaximumFractionDigits(2);
-        holder.precio.setText(format.format(alojamiento.getPrecioBase()));
+        holder.precio.setText("$ "+format.format(alojamiento.getPrecioBase()));
         holder.capacidad.setText((alojamiento.getCapacidad().toString()));
 
 
