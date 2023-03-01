@@ -1,6 +1,6 @@
-package com.mdgz.dam.labdam2022.data.mappers;
+package com.mdgz.dam.labdam2022.data.datasource.room.mappers;
 
-import com.mdgz.dam.labdam2022.data.entities.*;
+import com.mdgz.dam.labdam2022.data.datasource.room.entities.*;
 import com.mdgz.dam.labdam2022.model.Habitacion;
 import com.mdgz.dam.labdam2022.data.repo.HotelRepository;
 

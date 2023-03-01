@@ -1,4 +1,4 @@
-package com.mdgz.dam.labdam2022.data.dao;
+package com.mdgz.dam.labdam2022.data.datasource.room.dao;
 
 
 import androidx.room.Dao;
@@ -6,7 +6,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.mdgz.dam.labdam2022.data.entities.ReservaEntity;
+import com.mdgz.dam.labdam2022.data.datasource.room.entities.ReservaEntity;
 
 import java.util.UUID;
 

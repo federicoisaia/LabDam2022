@@ -21,7 +21,7 @@ import androidx.navigation.Navigation;
 
 import com.mdgz.dam.labdam2022.R;
 import com.mdgz.dam.labdam2022.data.OnResult;
-import com.mdgz.dam.labdam2022.data.database.AppDataBase;
+import com.mdgz.dam.labdam2022.data.datasource.room.database.AppDataBase;
 import com.mdgz.dam.labdam2022.databinding.FragmentDetalleAlojamientoBinding;
 import com.mdgz.dam.labdam2022.factory.AlojamientoRepositoryFactory;
 import com.mdgz.dam.labdam2022.model.Alojamiento;

@@ -1,4 +1,4 @@
-package com.mdgz.dam.labdam2022.data.entities;
+package com.mdgz.dam.labdam2022.data.datasource.room.entities;
 
 
 import androidx.annotation.NonNull;

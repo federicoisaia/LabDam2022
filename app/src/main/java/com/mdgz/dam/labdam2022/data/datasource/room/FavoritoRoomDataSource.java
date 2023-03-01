@@ -3,11 +3,11 @@ package com.mdgz.dam.labdam2022.data.datasource.room;
 import android.content.Context;
 
 import com.mdgz.dam.labdam2022.data.OnResult;
-import com.mdgz.dam.labdam2022.data.dao.FavoritoDAO;
-import com.mdgz.dam.labdam2022.data.database.AppDataBase;
+import com.mdgz.dam.labdam2022.data.datasource.room.dao.FavoritoDAO;
+import com.mdgz.dam.labdam2022.data.datasource.room.database.AppDataBase;
 import com.mdgz.dam.labdam2022.data.datasource.FavoritoDataSource;
-import com.mdgz.dam.labdam2022.data.entities.FavoritoEntity;
-import com.mdgz.dam.labdam2022.data.mappers.FavoritoMapper;
+import com.mdgz.dam.labdam2022.data.datasource.room.entities.FavoritoEntity;
+import com.mdgz.dam.labdam2022.data.datasource.room.mappers.FavoritoMapper;
 import com.mdgz.dam.labdam2022.model.Favorito;
 
 import java.util.LinkedList;

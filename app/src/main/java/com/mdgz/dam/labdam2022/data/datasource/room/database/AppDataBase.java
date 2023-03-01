@@ -1,4 +1,4 @@
-package com.mdgz.dam.labdam2022.data.database;
+package com.mdgz.dam.labdam2022.data.datasource.room.database;
 
 
 import android.content.Context;
@@ -10,20 +10,20 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import com.mdgz.dam.labdam2022.data.LocalDateConverter;
+import com.mdgz.dam.labdam2022.data.datasource.room.converters.LocalDateConverter;
 import com.mdgz.dam.labdam2022.data.OnResult;
-import com.mdgz.dam.labdam2022.data.UUIDConverter;
-import com.mdgz.dam.labdam2022.data.dao.AlojamientoDAO;
-import com.mdgz.dam.labdam2022.data.dao.DepartamentoDAO;
-import com.mdgz.dam.labdam2022.data.dao.FavoritoDAO;
-import com.mdgz.dam.labdam2022.data.dao.HabitacionDAO;
-import com.mdgz.dam.labdam2022.data.dao.ReservaDAO;
+import com.mdgz.dam.labdam2022.data.datasource.room.converters.UUIDConverter;
+import com.mdgz.dam.labdam2022.data.datasource.room.dao.AlojamientoDAO;
+import com.mdgz.dam.labdam2022.data.datasource.room.dao.DepartamentoDAO;
+import com.mdgz.dam.labdam2022.data.datasource.room.dao.FavoritoDAO;
+import com.mdgz.dam.labdam2022.data.datasource.room.dao.HabitacionDAO;
+import com.mdgz.dam.labdam2022.data.datasource.room.dao.ReservaDAO;
 import com.mdgz.dam.labdam2022.data.datasource.room.AlojamientoRoomDataSource;
-import com.mdgz.dam.labdam2022.data.entities.AlojamientoEntity;
-import com.mdgz.dam.labdam2022.data.entities.DepartamentoEntity;
-import com.mdgz.dam.labdam2022.data.entities.FavoritoEntity;
-import com.mdgz.dam.labdam2022.data.entities.HabitacionEntity;
-import com.mdgz.dam.labdam2022.data.entities.ReservaEntity;
+import com.mdgz.dam.labdam2022.data.datasource.room.entities.AlojamientoEntity;
+import com.mdgz.dam.labdam2022.data.datasource.room.entities.DepartamentoEntity;
+import com.mdgz.dam.labdam2022.data.datasource.room.entities.FavoritoEntity;
+import com.mdgz.dam.labdam2022.data.datasource.room.entities.HabitacionEntity;
+import com.mdgz.dam.labdam2022.data.datasource.room.entities.ReservaEntity;
 import com.mdgz.dam.labdam2022.data.repo.HotelRepository;
 import com.mdgz.dam.labdam2022.data.repo.UbicacionRepository;
 import com.mdgz.dam.labdam2022.model.Departamento;

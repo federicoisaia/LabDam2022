@@ -1,9 +1,9 @@
-package com.mdgz.dam.labdam2022.data.mappers;
+package com.mdgz.dam.labdam2022.data.datasource.room.mappers;
 
 import android.util.Log;
 
-import com.mdgz.dam.labdam2022.data.entities.AlojamientoEntity;
-import com.mdgz.dam.labdam2022.data.entities.DepartamentoEntity;
+import com.mdgz.dam.labdam2022.data.datasource.room.entities.AlojamientoEntity;
+import com.mdgz.dam.labdam2022.data.datasource.room.entities.DepartamentoEntity;
 import com.mdgz.dam.labdam2022.data.repo.UbicacionRepository;
 import com.mdgz.dam.labdam2022.model.Departamento;
 

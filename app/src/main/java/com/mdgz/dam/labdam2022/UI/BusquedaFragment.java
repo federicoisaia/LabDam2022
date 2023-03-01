@@ -16,7 +16,7 @@ import androidx.preference.PreferenceManager;
 
 import com.mdgz.dam.labdam2022.R;
 import com.mdgz.dam.labdam2022.data.OnResult;
-import com.mdgz.dam.labdam2022.data.database.AppDataBase;
+import com.mdgz.dam.labdam2022.data.datasource.room.database.AppDataBase;
 import com.mdgz.dam.labdam2022.data.repo.CiudadRepository;
 import com.mdgz.dam.labdam2022.databinding.FragmentBusquedaBinding;
 import com.mdgz.dam.labdam2022.factory.AlojamientoRepositoryFactory;

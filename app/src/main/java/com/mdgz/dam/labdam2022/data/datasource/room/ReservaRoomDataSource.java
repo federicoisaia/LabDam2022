@@ -3,11 +3,11 @@ package com.mdgz.dam.labdam2022.data.datasource.room;
 import android.content.Context;
 
 import com.mdgz.dam.labdam2022.data.OnResult;
-import com.mdgz.dam.labdam2022.data.dao.ReservaDAO;
-import com.mdgz.dam.labdam2022.data.database.AppDataBase;
+import com.mdgz.dam.labdam2022.data.datasource.room.dao.ReservaDAO;
+import com.mdgz.dam.labdam2022.data.datasource.room.database.AppDataBase;
 import com.mdgz.dam.labdam2022.data.datasource.ReservaDataSource;
-import com.mdgz.dam.labdam2022.data.entities.ReservaEntity;
-import com.mdgz.dam.labdam2022.data.mappers.ReservaMapper;
+import com.mdgz.dam.labdam2022.data.datasource.room.entities.ReservaEntity;
+import com.mdgz.dam.labdam2022.data.datasource.room.mappers.ReservaMapper;
 import com.mdgz.dam.labdam2022.model.Reserva;
 import com.mdgz.dam.labdam2022.data.repo.UserRepository;
 

@@ -1,4 +1,4 @@
-package com.mdgz.dam.labdam2022.data;
+package com.mdgz.dam.labdam2022.data.datasource.room.converters;
 
 
 import androidx.room.TypeConverter;

@@ -1,6 +1,6 @@
-package com.mdgz.dam.labdam2022.data.mappers;
+package com.mdgz.dam.labdam2022.data.datasource.room.mappers;
 
-import com.mdgz.dam.labdam2022.data.entities.FavoritoEntity;
+import com.mdgz.dam.labdam2022.data.datasource.room.entities.FavoritoEntity;
 import com.mdgz.dam.labdam2022.model.Favorito;
 
 public class FavoritoMapper {

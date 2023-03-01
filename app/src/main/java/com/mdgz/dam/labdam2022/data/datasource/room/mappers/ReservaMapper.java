@@ -1,6 +1,6 @@
-package com.mdgz.dam.labdam2022.data.mappers;
+package com.mdgz.dam.labdam2022.data.datasource.room.mappers;
 
-import com.mdgz.dam.labdam2022.data.entities.ReservaEntity;
+import com.mdgz.dam.labdam2022.data.datasource.room.entities.ReservaEntity;
 import com.mdgz.dam.labdam2022.model.Reserva;
 import com.mdgz.dam.labdam2022.data.repo.UserRepository;
 
