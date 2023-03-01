@@ -15,8 +15,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.preference.PreferenceManager;
 
 import com.mdgz.dam.labdam2022.R;
+import com.mdgz.dam.labdam2022.data.backEndThread.ExecutorThread;
 import com.mdgz.dam.labdam2022.data.OnResult;
-import com.mdgz.dam.labdam2022.data.datasource.room.database.AppDataBase;
 import com.mdgz.dam.labdam2022.data.repo.CiudadRepository;
 import com.mdgz.dam.labdam2022.databinding.FragmentBusquedaBinding;
 import com.mdgz.dam.labdam2022.factory.AlojamientoRepositoryFactory;
@@ -96,7 +96,7 @@ public class BusquedaFragment extends Fragment {
                 public void onError(Throwable exception) {sinResultados=true;}
             };
                  inicioConsulta = Instant.now();
-                AppDataBase.EXECUTOR_DB.execute(()-> AlojamientoRepositoryFactory.create(getContext()).recuperarAlojamientos(alojamientosCallback));
+                ExecutorThread._EXECUTOR.execute(()-> AlojamientoRepositoryFactory.create(getContext()).recuperarAlojamientos(alojamientosCallback));
 
 
 

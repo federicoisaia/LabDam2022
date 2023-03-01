@@ -55,7 +55,7 @@ public class AlojamientoRepository {
                         final List<Alojamiento> alojamientosFavoritos = new ArrayList<>();
                         for (final Alojamiento alojamiento : alojamientos) {
                             for (final Favorito favorito : favoritos) {
-                                if (favorito.getAlojamientoID().equals(alojamiento.getId())) {
+                                if (favorito.getAlojamientoId().equals(alojamiento.getId())) {
                                     alojamientosFavoritos.add(alojamiento);
                                     break;
                                 }
@@ -122,7 +122,7 @@ public class AlojamientoRepository {
             }
         });
     }
-    public void recuperarReservasBD(final OnResult<List<Reserva>> callback){
+    public void recuperarSoloReservas(final OnResult<List<Reserva>> callback){
         reservaDataSource.recuperarReservas(callback);
     }
 
@@ -137,4 +137,5 @@ public class AlojamientoRepository {
 
     void estaReservado(final Alojamiento alojamiento, final OnResult<Boolean> callback) {
         reservaDataSource.existe(alojamiento.getId(), callback);
-    }}
+    }
+}

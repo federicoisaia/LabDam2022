@@ -1,21 +1,15 @@
-package com.mdgz.dam.labdam2022.model;
+package com.mdgz.dam.labdam2022.data.datasource.retrofit.entities;
 
 import java.util.UUID;
 
-public class Favorito {
+public class FavoritoRestEntity {
     UUID alojamientoId;
     UUID usuarioId;
 
-    public Favorito() {
-        super();
-    }
-
-    public Favorito( UUID alojamientoID, UUID usuarioID){
+    public FavoritoRestEntity(UUID alojamientoID, UUID usuarioID){
         this.alojamientoId = alojamientoID;
         this.usuarioId = usuarioID;
     }
-
-
 
     public UUID getAlojamientoId() {
         return alojamientoId;

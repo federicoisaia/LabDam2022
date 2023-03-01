@@ -12,7 +12,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.mdgz.dam.labdam2022.R;
 import com.mdgz.dam.labdam2022.data.OnResult;
-import com.mdgz.dam.labdam2022.data.datasource.room.database.AppDataBase;
+import com.mdgz.dam.labdam2022.data.backEndThread.ExecutorThread;
 import com.mdgz.dam.labdam2022.databinding.ActivityMainBinding;
 import com.mdgz.dam.labdam2022.factory.AlojamientoRepositoryFactory;
 import com.mdgz.dam.labdam2022.model.Alojamiento;
@@ -67,25 +67,43 @@ public class MainActivity extends AppCompatActivity {
 
     private void irAReservas() {
         ArrayList<Reserva> reservas = new ArrayList<>();
+        ArrayList<Alojamiento> alojamientos = new ArrayList<>();
+        Bundle bundle = new Bundle();
+
         OnResult<List<Reserva>> reservasCallback = new OnResult<List<Reserva>>() {
             @Override
             public void onSuccess(List<Reserva> result) {
                 reservas.addAll(result);
-                runOnUiThread(() -> {
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelableArrayList("reservas", reservas);
-                    navController.navigate(R.id.to_misReservasFragment, bundle);
-                });
+                bundle.putParcelableArrayList("reservas", reservas);
             }
 
             @Override
             public void onError(Throwable exception) {
-
+                exception.printStackTrace();
             }
         };
-        AppDataBase.EXECUTOR_DB.execute(() -> {
-            AlojamientoRepositoryFactory.create(getApplicationContext()).recuperarReservasBD(reservasCallback);
+       ExecutorThread._EXECUTOR.execute(() -> {
+            AlojamientoRepositoryFactory.create(getApplicationContext()).recuperarSoloReservas(reservasCallback);
         });
+       OnResult<List<Alojamiento>> alojamientosCallback = new OnResult<List<Alojamiento>>() {
+           @Override
+           public void onSuccess(List<Alojamiento> result) {
+               alojamientos.addAll(result);
+               bundle.putParcelableArrayList("alojamientos", alojamientos);
+               runOnUiThread(()->{
+                   navController.navigate(R.id.to_misReservasFragment, bundle);
+               });
+           }
+
+           @Override
+           public void onError(Throwable exception) {
+            exception.printStackTrace();
+           }
+       };
+
+       ExecutorThread._EXECUTOR.execute(()->{
+           AlojamientoRepositoryFactory.create(getApplicationContext()).recuperarAlojamientos(alojamientosCallback);
+       });
     }
 
 
@@ -107,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        AppDataBase.EXECUTOR_DB.execute(()->{
+        ExecutorThread._EXECUTOR.execute(()->{
             AlojamientoRepositoryFactory.create(getApplicationContext()).recuperarFavoritos(favoritosCallback);
         });
     }

@@ -23,7 +23,7 @@ public class FavoritosFragment extends Fragment {
     private FragmentFavoritosBinding binding;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
-    private RecyclerView.Adapter rvAdapter;
+    private AlojamientosRecyclerAdapter rvAdapter;
 
     public FavoritosFragment() {
         // Required empty public constructor
@@ -66,7 +66,7 @@ public class FavoritosFragment extends Fragment {
 
         rvAdapter = new AlojamientosRecyclerAdapter(alojamientos);
         recyclerView.setAdapter(rvAdapter);
-
-
     }
+
+
 }

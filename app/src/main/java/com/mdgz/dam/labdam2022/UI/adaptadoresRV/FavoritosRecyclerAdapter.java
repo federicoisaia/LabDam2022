@@ -1,5 +1,6 @@
 package com.mdgz.dam.labdam2022.UI.adaptadoresRV;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,19 +14,14 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mdgz.dam.labdam2022.R;
-import com.mdgz.dam.labdam2022.data.OnResult;
-import com.mdgz.dam.labdam2022.data.backEndThread.ExecutorThread;
-import com.mdgz.dam.labdam2022.factory.AlojamientoRepositoryFactory;
 import com.mdgz.dam.labdam2022.model.Alojamiento;
 import com.mdgz.dam.labdam2022.model.Departamento;
-import com.mdgz.dam.labdam2022.model.Favorito;
 
 import java.text.DecimalFormat;
 import java.util.List;
 
-public class AlojamientosRecyclerAdapter extends RecyclerView.Adapter<AlojamientosRecyclerAdapter.AlojamientosViewHolder> {
+public class FavoritosRecyclerAdapter extends RecyclerView.Adapter<FavoritosRecyclerAdapter.AlojamientosViewHolder> {
     private List<Alojamiento> dataAlojamientos ;
-    private List<Favorito> dataFavoritos;
     Bundle bundle= new Bundle();
     public static class AlojamientosViewHolder extends RecyclerView.ViewHolder{
         CardView card;
@@ -34,7 +30,6 @@ public class AlojamientosRecyclerAdapter extends RecyclerView.Adapter<Alojamient
         ImageView imgTipo;
         ImageView imgFav;
         TextView capacidad;
-        private boolean esFavorito;
 
         public AlojamientosViewHolder(@NonNull View itemView) {
 
@@ -52,10 +47,9 @@ public class AlojamientosRecyclerAdapter extends RecyclerView.Adapter<Alojamient
         }
     }
 
-    public AlojamientosRecyclerAdapter(List<Alojamiento> dataAlojamiento) {
-        dataAlojamientos=dataAlojamiento;
+    public FavoritosRecyclerAdapter(List<Alojamiento> data) {
+        dataAlojamientos=data;
     }
-
 
     @NonNull
     @Override
@@ -66,26 +60,27 @@ public class AlojamientosRecyclerAdapter extends RecyclerView.Adapter<Alojamient
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AlojamientosViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AlojamientosViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
     Alojamiento alojamiento = dataAlojamientos.get(position);
 
-    completarHolder(holder, alojamiento);
+        completarHolder(holder, alojamiento, position);
 
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 bundle.putParcelable("alojamiento_seleccionado",alojamiento);
-                if(holder.esFavorito)bundle.putBoolean("es_favorito", true);
+                bundle.putBoolean("es_favorito", true);
                 Navigation.findNavController(view).navigate(R.id.to_detalleAlojamientoFragment,bundle);
 
             }
         });
 
+
     }
 
-    private void completarHolder(AlojamientosViewHolder holder, Alojamiento alojamiento) {
+    private void completarHolder(AlojamientosViewHolder holder, Alojamiento alojamiento, int position) {
         if(alojamiento instanceof  Departamento)
             holder.imgTipo.setImageResource(R.drawable.ic_baseline_apartment_24);
         else holder.imgTipo.setImageResource(R.drawable.ic_baseline_hotel_24);
@@ -95,25 +90,13 @@ public class AlojamientosRecyclerAdapter extends RecyclerView.Adapter<Alojamient
         format.setMaximumFractionDigits(2);
         holder.precio.setText("$ "+format.format(alojamiento.getPrecioBase()));
         holder.capacidad.setText((alojamiento.getCapacidad().toString()));
+        holder.imgFav.setImageResource(R.drawable.ic_baseline_star_24);
 
-        OnResult<Boolean> favoritoCallback = new OnResult<Boolean>() {
-            @Override
-            public void onSuccess(Boolean result) {
-                if(result){
-                    holder.imgFav.setImageResource(R.drawable.ic_baseline_star_24);
-                    holder.esFavorito=true;
-                }
-                else holder.esFavorito=false;
 
-            }
 
-            @Override
-            public void onError(Throwable exception) {exception.printStackTrace();}
-        };
-        ExecutorThread._EXECUTOR.execute(()-> {
-            AlojamientoRepositoryFactory.create(holder.card.getContext()).esFavorito(alojamiento, favoritoCallback);
-        });
+
     }
+
 
     @Override
     public int getItemCount() {

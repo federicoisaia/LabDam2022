@@ -20,8 +20,6 @@ public class ReservaEntity {
     private UUID id;
     @ColumnInfo(name = "alojamiento_id")
     private UUID alojamientoID;
-    @ColumnInfo(name = "titulo_alojamiento")
-    private String tituloAlojamiento;
     @ColumnInfo(name = "usuario_id")
     private UUID usuarioID;
     @ColumnInfo(name = "fecha_Ingreso")
@@ -30,10 +28,9 @@ public class ReservaEntity {
     private LocalDate fechaSalida;
     private Double monto;
 
-    public ReservaEntity(@NonNull UUID id, final UUID alojamientoID,String tituloAlojamiento, final UUID usuarioID,final LocalDate fechaIngreso, final LocalDate fechaSalida, final Double monto) {
+    public ReservaEntity(@NonNull UUID id, final UUID alojamientoID, final UUID usuarioID,final LocalDate fechaIngreso, final LocalDate fechaSalida, final Double monto) {
         this.id = id;
         this.alojamientoID = alojamientoID;
-        this.tituloAlojamiento=tituloAlojamiento;
         this.usuarioID = usuarioID;
         this.fechaIngreso = fechaIngreso;
         this.fechaSalida = fechaSalida;
@@ -41,10 +38,9 @@ public class ReservaEntity {
     }
 
     @Ignore
-    public ReservaEntity(final UUID alojamientoID,String tituloAlojamiento, final UUID usuarioID, final LocalDate fechaIngreso, final LocalDate fechaSalida, final Double monto) {
+    public ReservaEntity(final UUID alojamientoID, final UUID usuarioID, final LocalDate fechaIngreso, final LocalDate fechaSalida, final Double monto) {
         this.id= UUID.randomUUID();
         this.alojamientoID = alojamientoID;
-        this.tituloAlojamiento=tituloAlojamiento;
         this.usuarioID = usuarioID;
         this.fechaIngreso = fechaIngreso;
         this.fechaSalida = fechaSalida;
@@ -69,13 +65,7 @@ public class ReservaEntity {
         this.alojamientoID = alojamientoID;
     }
 
-    public String getTituloAlojamiento() {
-        return tituloAlojamiento;
-    }
 
-    public void setTituloAlojamiento(String tituloAlojamiento) {
-        this.tituloAlojamiento = tituloAlojamiento;
-    }
 
     public UUID getUsuarioID() {
         return usuarioID;

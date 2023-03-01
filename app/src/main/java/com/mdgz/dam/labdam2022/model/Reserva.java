@@ -10,7 +10,6 @@ public class Reserva implements Parcelable {
 
     private UUID id;
     private UUID alojamientoID;
-    private String tituloAlojamiento;
     private LocalDate fechaIngreso;
     private LocalDate fechaEgreso;
     private Double monto;
@@ -19,18 +18,16 @@ public class Reserva implements Parcelable {
         super();
     }
 
-    public Reserva(UUID id,UUID alojamientoID, String tituloAlojamiento, LocalDate fechaIngreso, LocalDate fechaEgreso, Double monto) {
+    public Reserva(UUID id,UUID alojamientoID, LocalDate fechaIngreso, LocalDate fechaEgreso, Double monto) {
         this.id = id;
         this.alojamientoID = alojamientoID;
-        this.tituloAlojamiento=tituloAlojamiento;
         this.fechaIngreso = fechaIngreso;
         this.fechaEgreso = fechaEgreso;
         this.monto = monto;
     }
-    public Reserva(UUID alojamientoID,String tituloAlojamiento,  LocalDate fechaIngreso, LocalDate fechaEgreso, Double monto) {
+    public Reserva(UUID alojamientoID,  LocalDate fechaIngreso, LocalDate fechaEgreso, Double monto) {
 
         this.alojamientoID = alojamientoID;
-        this.tituloAlojamiento=tituloAlojamiento;
         this.fechaIngreso = fechaIngreso;
         this.fechaEgreso = fechaEgreso;
         this.monto = monto;
@@ -41,7 +38,6 @@ public class Reserva implements Parcelable {
     }
 
     protected Reserva(Parcel in) {
-        tituloAlojamiento = in.readString();
         fechaIngreso=LocalDate.parse(in.readString());
         fechaEgreso=LocalDate.parse(in.readString());
             monto = in.readDouble();
@@ -99,13 +95,7 @@ public class Reserva implements Parcelable {
         this.alojamientoID = alojamientoID;
     }
 
-    public String getTituloAlojamiento() {
-        return tituloAlojamiento;
-    }
 
-    public void setTituloAlojamiento(String tituloAlojamiento) {
-        this.tituloAlojamiento = tituloAlojamiento;
-    }
 
     @Override
     public int describeContents() {
@@ -114,7 +104,6 @@ public class Reserva implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(tituloAlojamiento);
         parcel.writeString(fechaIngreso.toString());
         parcel.writeString(fechaEgreso.toString());
         parcel.writeDouble(monto);

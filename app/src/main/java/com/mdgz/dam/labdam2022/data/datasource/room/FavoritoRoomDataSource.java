@@ -51,6 +51,7 @@ public class FavoritoRoomDataSource implements FavoritoDataSource {
             callback.onError(e);
         }
     }
+
     public void existe(final Favorito favorito, final OnResult<Boolean> callback) {
         try {
             FavoritoEntity fe = FavoritoMapper.toEntity(favorito);

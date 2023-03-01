@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mdgz.dam.labdam2022.UI.adaptadoresRV.ReservasRecyclerAdapter;
 import com.mdgz.dam.labdam2022.databinding.FragmentMisReservasBinding;
+import com.mdgz.dam.labdam2022.model.Alojamiento;
 import com.mdgz.dam.labdam2022.model.Reserva;
 
 import java.util.ArrayList;
@@ -53,8 +54,11 @@ public class MisReservasFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         ArrayList<Reserva> reservas = new ArrayList<>();
+        ArrayList<Alojamiento> alojamientos = new ArrayList<>();
         if (getArguments() != null) {
             reservas = getArguments().getParcelableArrayList("reservas");
+            alojamientos = getArguments().getParcelableArrayList("alojamientos");
+
         }
         recyclerView=binding.recyclerReservas;
 
@@ -62,7 +66,7 @@ public class MisReservasFragment extends Fragment {
         layoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        rvAdapter = new ReservasRecyclerAdapter(reservas);
+        rvAdapter = new ReservasRecyclerAdapter(reservas, alojamientos);
         recyclerView.setAdapter(rvAdapter);
 
 

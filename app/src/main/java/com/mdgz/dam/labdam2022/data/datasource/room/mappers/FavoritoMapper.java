@@ -7,8 +7,8 @@ public class FavoritoMapper {
     private FavoritoMapper(){
     }
     public static FavoritoEntity toEntity(final Favorito favorito){
-        return new FavoritoEntity(favorito.getAlojamientoID(),
-                favorito.getUsuarioID()
+        return new FavoritoEntity(favorito.getAlojamientoId(),
+                favorito.getUsuarioId()
         );
     }
     public static Favorito fromEntity(FavoritoEntity favoritoEntity){

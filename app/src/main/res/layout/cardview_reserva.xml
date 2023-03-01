@@ -51,14 +51,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"/>
 
-                <TextView
-                    android:id="@+id/texto_precio_reserva"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:text="$0.000"
-                    android:textColor="@color/azul_primario_app" />
-
             </LinearLayout>
         </LinearLayout>
 

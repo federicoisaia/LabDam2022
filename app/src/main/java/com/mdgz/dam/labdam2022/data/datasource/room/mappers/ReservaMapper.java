@@ -13,7 +13,6 @@ public class ReservaMapper {
         return new ReservaEntity(
                 reserva.getId()==null? UUID.randomUUID(): reserva.getId(),
                 reserva.getAlojamientoID(),
-                reserva.getTituloAlojamiento(),
                 UserRepository.currentUserId(),
                 reserva.getFechaIngreso(),
                 reserva.getFechaEgreso(),
@@ -23,7 +22,6 @@ public class ReservaMapper {
         return new Reserva(
                 reserva.getId(),
                 reserva.getAlojamientoID(),
-                reserva.getTituloAlojamiento(),
                 reserva.getFechaIngreso(),
                 reserva.getFechaSalida(),
                 reserva.getMonto());

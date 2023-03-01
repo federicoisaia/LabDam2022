@@ -13,8 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mdgz.dam.labdam2022.R;
 import com.mdgz.dam.labdam2022.data.OnResult;
-import com.mdgz.dam.labdam2022.data.datasource.room.database.AppDataBase;
+import com.mdgz.dam.labdam2022.data.backEndThread.ExecutorThread;
 import com.mdgz.dam.labdam2022.factory.AlojamientoRepositoryFactory;
+import com.mdgz.dam.labdam2022.model.Alojamiento;
 import com.mdgz.dam.labdam2022.model.Reserva;
 
 import java.text.DecimalFormat;
@@ -22,6 +23,7 @@ import java.util.List;
 
 public class ReservasRecyclerAdapter extends RecyclerView.Adapter<ReservasRecyclerAdapter.ReservasViewHolder> {
     private List<Reserva> dataReserva ;
+    private List<Alojamiento> dataAlojamiento;
     Bundle bundle= new Bundle();
     public static class ReservasViewHolder extends RecyclerView.ViewHolder{
         CardView card;
@@ -36,7 +38,6 @@ public class ReservasRecyclerAdapter extends RecyclerView.Adapter<ReservasRecycl
             super(itemView);
             card = itemView.findViewById(R.id.card_view_reserva);
             titulo = itemView.findViewById(R.id.titulo_alojamiento_reserva);
-            precio = itemView.findViewById(R.id.texto_precio_reserva);
             desde = itemView.findViewById(R.id.fecha_desde);
             hasta = itemView.findViewById(R.id.fecha_hasta);
             eliminar = itemView.findViewById(R.id.boton_eliminar);
@@ -47,8 +48,9 @@ public class ReservasRecyclerAdapter extends RecyclerView.Adapter<ReservasRecycl
         }
     }
 
-    public ReservasRecyclerAdapter(List<Reserva> data) {
-        dataReserva=data;
+    public ReservasRecyclerAdapter(List<Reserva> reservas, List<Alojamiento> aljojamientos) {
+        dataReserva=reservas;
+        dataAlojamiento=aljojamientos;
     }
 
     @NonNull
@@ -62,8 +64,8 @@ public class ReservasRecyclerAdapter extends RecyclerView.Adapter<ReservasRecycl
     @Override
     public void onBindViewHolder(@NonNull ReservasViewHolder holder, int position) {
         Reserva reserva = dataReserva.get(position);
-
-        completarHolder(holder, reserva);
+        Alojamiento alojamiento = dataAlojamiento.stream().filter((a)->a.getId().equals(reserva.getAlojamientoID())).findAny().get();
+        completarHolder(holder, reserva, alojamiento);
         holder.eliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,7 +84,7 @@ public class ReservasRecyclerAdapter extends RecyclerView.Adapter<ReservasRecycl
 
                     }
                 };
-                AppDataBase.EXECUTOR_DB.execute(()->{
+                ExecutorThread._EXECUTOR.execute(()->{
                     AlojamientoRepositoryFactory.create(holder.card.getContext()).quitarReserva(reserva,eliminarCallback);
                 });
             }
@@ -90,11 +92,10 @@ public class ReservasRecyclerAdapter extends RecyclerView.Adapter<ReservasRecycl
     }
 
 
-    private void completarHolder(ReservasViewHolder holder, Reserva reserva) {
-        holder.titulo.setText(reserva.getTituloAlojamiento());
+    private void completarHolder(ReservasViewHolder holder, Reserva reserva, Alojamiento alojamiento) {
+        holder.titulo.setText(alojamiento.getTitulo());
         DecimalFormat format= new DecimalFormat();
         format.setMaximumFractionDigits(2);
-        holder.precio.setText("$ "+format.format(reserva.getMonto()));
         holder.desde.setText("Desde: "+reserva.getFechaEgreso());
         holder.hasta.setText("Hasta: "+reserva.getFechaEgreso());
 

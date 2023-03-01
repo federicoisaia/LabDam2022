@@ -10,15 +10,16 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import com.mdgz.dam.labdam2022.data.datasource.room.converters.LocalDateConverter;
+import com.mdgz.dam.labdam2022.data.backEndThread.ExecutorThread;
 import com.mdgz.dam.labdam2022.data.OnResult;
+import com.mdgz.dam.labdam2022.data.datasource.room.AlojamientoRoomDataSource;
+import com.mdgz.dam.labdam2022.data.datasource.room.converters.LocalDateConverter;
 import com.mdgz.dam.labdam2022.data.datasource.room.converters.UUIDConverter;
 import com.mdgz.dam.labdam2022.data.datasource.room.dao.AlojamientoDAO;
 import com.mdgz.dam.labdam2022.data.datasource.room.dao.DepartamentoDAO;
 import com.mdgz.dam.labdam2022.data.datasource.room.dao.FavoritoDAO;
 import com.mdgz.dam.labdam2022.data.datasource.room.dao.HabitacionDAO;
 import com.mdgz.dam.labdam2022.data.datasource.room.dao.ReservaDAO;
-import com.mdgz.dam.labdam2022.data.datasource.room.AlojamientoRoomDataSource;
 import com.mdgz.dam.labdam2022.data.datasource.room.entities.AlojamientoEntity;
 import com.mdgz.dam.labdam2022.data.datasource.room.entities.DepartamentoEntity;
 import com.mdgz.dam.labdam2022.data.datasource.room.entities.FavoritoEntity;
@@ -28,9 +29,6 @@ import com.mdgz.dam.labdam2022.data.repo.HotelRepository;
 import com.mdgz.dam.labdam2022.data.repo.UbicacionRepository;
 import com.mdgz.dam.labdam2022.model.Departamento;
 import com.mdgz.dam.labdam2022.model.Habitacion;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 @Database(entities = { AlojamientoEntity.class, DepartamentoEntity.class, HabitacionEntity.class, FavoritoEntity.class, ReservaEntity.class},
         version = 1,
@@ -51,7 +49,6 @@ public abstract class AppDataBase extends RoomDatabase {
     private static final String DATABASE_NAME = "db_sistema_alojamientos";
     private static AppDataBase instance;
 
-    public static final ExecutorService EXECUTOR_DB = Executors.newSingleThreadExecutor();
 
     public static synchronized AppDataBase getInstance(final Context context) {
         if (instance == null) {
@@ -68,7 +65,7 @@ public abstract class AppDataBase extends RoomDatabase {
         @Override
         public void onCreate(@NonNull final SupportSQLiteDatabase db) {
             super.onCreate(db);
-            EXECUTOR_DB.execute(() -> {
+            ExecutorThread._EXECUTOR.execute(() -> {
                 final OnResult<Departamento> dc = new OnResult<Departamento>() {
 
                     @Override
@@ -98,7 +95,7 @@ public abstract class AppDataBase extends RoomDatabase {
                 ds.guardarDepartamento(new Departamento(
                         "Departamento 1",
                         "Este departamente esta copado a pesar de tener un nombre no muy original",
-                        0,
+                        2,
                         12.0,
                         true,
                         1.0,
@@ -119,7 +116,7 @@ public abstract class AppDataBase extends RoomDatabase {
                 ds.guardarDepartamento(new Departamento(
                         "Departamento 2",
                         "Este departamento tiene pileta",
-                        0,
+                        4,
                         12.0,
                         true,
                         1.0,
@@ -130,7 +127,7 @@ public abstract class AppDataBase extends RoomDatabase {
                 ds.guardarHabitacion(new Habitacion(
                         "Habitación 2",
                         "Esta es una habitación con dos camas",
-                        1,
+                        2,
                         12.0,
                         2,
                         0,
@@ -142,7 +139,7 @@ public abstract class AppDataBase extends RoomDatabase {
                 ds.guardarDepartamento(new Departamento(
                         "Departamento 3",
                         "Este departamento no esta muy bueno pero es barato",
-                        0,
+                        3,
                         12.0,
                         true,
                         1.0,
@@ -152,7 +149,7 @@ public abstract class AppDataBase extends RoomDatabase {
                 ds.guardarDepartamento(new Departamento(
                         "Departamento 4",
                         "En este departamento se pueden tener mascotas",
-                        0,
+                        5,
                         12.0,
                         true,
                         1.0,
@@ -163,7 +160,7 @@ public abstract class AppDataBase extends RoomDatabase {
                 ds.guardarDepartamento(new Departamento(
                         "Departamento 5",
                         "En este departamento es el 5",
-                        0,
+                        3,
                         12.0,
                         true,
                         1.0,
@@ -174,7 +171,7 @@ public abstract class AppDataBase extends RoomDatabase {
                 ds.guardarDepartamento(new Departamento(
                         "Departamento 6",
                         "En este departamento es el 6",
-                        0,
+                        4,
                         12.0,
                         true,
                         1.0,
@@ -185,7 +182,7 @@ public abstract class AppDataBase extends RoomDatabase {
                 ds.guardarDepartamento(new Departamento(
                         "Departamento 7",
                         "En este departamento es el 7",
-                        0,
+                        5,
                         12.0,
                         true,
                         1.0,
@@ -218,10 +215,10 @@ public abstract class AppDataBase extends RoomDatabase {
                 ds.guardarHabitacion(new Habitacion(
                         "Habitación 5",
                         "Esta es una habitación 5",
-                        1,
+                        3,
                         12.0,
                         1,
-                        0,
+                        1,
                         true,
                         HotelRepository.recuperarHotel(2)
 
@@ -232,5 +229,5 @@ public abstract class AppDataBase extends RoomDatabase {
 
 
     public void clearTables() {
-        EXECUTOR_DB.execute(this::clearAllTables);
+        ExecutorThread._EXECUTOR.execute(this::clearAllTables);
     }}
